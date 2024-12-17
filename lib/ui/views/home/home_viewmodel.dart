@@ -9,6 +9,8 @@ class HomeViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
 
+  List data = [];
+
   String get counterLabel => 'Counter is: $_counter';
 
   int _counter = 0;
