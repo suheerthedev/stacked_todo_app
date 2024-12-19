@@ -1,6 +1,7 @@
 import 'package:stacked_todo_app/app/app.bottomsheets.dart';
 import 'package:stacked_todo_app/app/app.dialogs.dart';
 import 'package:stacked_todo_app/app/app.locator.dart';
+import 'package:stacked_todo_app/services/api_service.dart';
 import 'package:stacked_todo_app/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -8,6 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 class HomeViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final ApiService _apiService = locator<ApiService>();
 
   List data = [];
 

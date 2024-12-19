@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:stacked_services/stacked_services.dart';
+import 'package:stacked_todo_app/app/app.dialogs.dart';
 import 'package:stacked_todo_app/app/app.locator.dart';
 
 class ApiService {
@@ -17,13 +18,16 @@ class ApiService {
         final responseBody = jsonDecode(response.body);
         print(responseBody);
       } else {
-        _dialogService.showDialog(
+        _dialogService.showCustomDialog(
+            variant: DialogType.infoAlert,
             title: "Failed to load data :(",
             description: response.statusCode.toString());
       }
     } catch (error) {
-      _dialogService.showDialog(
-          title: "Failed to fetch data", description: "Error: $error");
+      _dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: "Failed to fetch data",
+          description: "Error: $error");
     }
   }
 }
