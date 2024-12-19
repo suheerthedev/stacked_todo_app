@@ -1,40 +1,31 @@
-import 'package:stacked_todo_app/app/app.bottomsheets.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_todo_app/app/app.dialogs.dart';
 import 'package:stacked_todo_app/app/app.locator.dart';
+import 'package:stacked_todo_app/models/api_model.dart';
 import 'package:stacked_todo_app/services/api_service.dart';
-import 'package:stacked_todo_app/ui/common/app_strings.dart';
 import 'package:stacked/stacked.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends BaseViewModel {
-  final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
   final ApiService _apiService = locator<ApiService>();
+  final DialogService _dialogService = locator<DialogService>();
 
-  List data = [];
+  List<ApiModel> data = [];
+  List<ApiModel> get dataList => data;
 
-  String get counterLabel => 'Counter is: $_counter';
-
-  int _counter = 0;
-
-  void incrementCounter() {
-    _counter++;
-    rebuildUi();
-  }
-
-  void showDialog() {
-    _dialogService.showCustomDialog(
-      variant: DialogType.infoAlert,
-      title: 'Stacked Rocks!',
-      description: 'Give stacked $_counter stars on Github',
-    );
-  }
-
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
+  Future<void> fetch() async {
+    setBusy(true);
+    try {
+      final fetchedData = await _apiService.fetchData();
+      if (fetchedData is List<ApiModel>) {
+        data = fetchedData;
+        print(data);
+      }
+    } catch (error) {
+      _dialogService.showCustomDialog(
+        variant: DialogType.infoAlert,
+        title: "Failed",
+        description: "Error: $error",
+      );
+    }
   }
 }
